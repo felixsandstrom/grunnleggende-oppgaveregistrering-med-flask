@@ -1,0 +1,180 @@
+
+/* CHROME */
+::-webkit-scrollbar {
+  width: 0.3rem;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 30px;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #F0F0F0; 
+}
+
+.row {
+  width: 100%;
+}
+
+/***********************************************************************************************************/
+/**************************************  Navbar  ***********************************************************/
+/***********************************************************************************************************/
+
+.navbar-custom {
+  background-color: rgb(7, 99, 36) !important;
+  height: 55px;
+}
+
+.navbar-title-name {
+  color: rgb(246, 246, 246); 
+  font-size: 20px; 
+  font-weight: bold;
+  padding-right: 15px; 
+  margin-left: 20px;
+  text-decoration: none;
+}
+
+
+/***********************************************************************************************************/
+/**************************************  Tables  ***********************************************************/
+/***********************************************************************************************************/
+
+.table .clickable-row:hover {
+  cursor: pointer;
+  user-select: none;
+}
+
+.table .clickable-row.active td {
+  background-color: #e8f1f9;
+}
+
+.table .clickable-row:hover td {
+  background-color: #f4f8fc;
+}
+
+.navgrid-background {
+  background-color: white;
+  overflow-y: auto;
+  border-left: 2px solid rgb(220, 220, 220);
+}
+
+.default-table td,
+.default-table th {
+  font-size: 12px; 
+  padding: 8px;
+  height: 35px; 
+}
+
+.default-table td {
+  border: 1px solid rgb(223, 223, 223); 
+}
+
+.default-table-big th,
+.default-table-big td {
+  font-size: 11px; 
+  padding: 5px;
+}
+
+.btn-delete {
+  font-size: 13px;
+}
+
+.delete-col .btn-delete {
+  visibility: hidden;
+  border: none;
+  background: transparent;
+  padding: 0;
+  color: #cbbbbd;
+  cursor: pointer;
+  transition: visibility 5s, opacity 0.6s linear; 
+  opacity: 0; 
+}
+
+tr:hover .delete-col .btn-delete {
+  visibility: visible;
+  opacity: 1; 
+}
+
+tr {
+  transition: background-color 0.3s ease-in-out; 
+}
+
+tbody tr:hover {
+  background-color: #f9f6ff;
+}
+
+
+/***********************************************************************************************************/
+/************************************** Common Buttons/ Nav item  ******************************************/
+/***********************************************************************************************************/
+
+#saveTaskBtn:disabled {
+  background-color: #ccc;
+  border-color: #a8a8a8;  
+  cursor: not-allowed;  
+}
+
+#saveSetupOrderBtn {
+  display: none;
+}
+
+
+/***********************************************************************************************************/
+/***************************************** Common table ****************************************************/
+/***********************************************************************************************************/
+
+.common-scrollsection {
+  max-height: calc(100% - 61px); 
+  padding: 0px;
+  overflow-y: auto;
+  background-color: rgb(255, 255, 255);
+  margin-top: 0px;
+}
+
+.sort-column {
+  position: relative;
+  cursor: pointer;
+}
+
+.sort-column:after, .sort-column:before {
+  content: '';
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  border-style: solid;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.sort-column:before {
+  border-color: transparent;
+  border-bottom-color: rgb(173, 173, 173); 
+  border-width: 0 5px 5px 5px; 
+  margin-top: -4px; 
+}
+
+.sort-column:after {
+  border-color: transparent;
+  border-top-color: rgb(173, 173, 173);
+  border-width: 5px 5px 0 5px;
+  margin-top: 5px;
+}
+
+.sort-column.sorted-asc:before, 
+.sort-column.sorted-desc:after {
+  border-top-color: black; 
+}
+
+.table .star-row td:nth-child(1),
+.table .delete-col,
+.table .indicator-col {
+  text-align: center;
+}
+

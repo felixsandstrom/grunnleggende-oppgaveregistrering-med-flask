@@ -1,0 +1,92 @@
+
+.general-table-bottom {
+  padding-bottom: 50px;
+  margin-bottom: 50px;
+}
+
+.general-table-bottom tr {
+  border-bottom: 1px solid rgb(211, 211, 211)
+}
+
+.general-table-bottom td {
+  border-top: none;
+  /* border-bottom: 1px solid rgb(211, 211, 211) */
+}
+
+.contact-table-top {
+  margin-bottom: 0px;
+}
+
+.table .indicator-column-client { width: 5%; } 
+.table .delete-col { width: 10%; } 
+
+/******************** Contacts Navgrid **********************/
+
+.contact-table-top th:nth-child(1),
+.general-table-bottom  td:nth-child(1) {
+  width: 5%;
+}
+.contact-table-top th:nth-child(2),
+.general-table-bottom td:nth-child(2) {
+  width: 14%;
+}
+.contact-table-top th:nth-child(3),
+.general-table-bottom td:nth-child(3){
+  width: 16%;
+}
+.contact-table-top th:nth-child(4),
+.general-table-bottom td:nth-child(4) {
+  width: 17%;
+}
+/* .contact-table-top th:nth-child(5),
+.general-table-bottom td:nth-child(5) {
+  width: 44%;
+} */
+.contact-table-top th:nth-child(6),
+.general-table-bottom td:nth-child(6) {
+  width: 10%;
+}
+.contact-table-top th:nth-child(7),
+.general-table-bottom td:nth-child(7) {
+  width: 7%;
+}
+
+.contact-table-top th input[type="text"] {
+  width: 100%;
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 2px;
+  padding-right: 2px;
+  box-sizing: border-box;
+  border: 1px solid #cacaca;
+  border-radius: 5px;
+}
+
+.contact-table-top th input[type="text"]:focus {
+  outline: none;
+  border: 1px solid #a9a9a9;
+}
+
+.contact-table-top .search-row th {
+  padding-top: 0px;
+  padding-bottom: 6px;
+  padding-left: 2px;
+  padding-right: 6px;
+  height: 14px;
+  /* background-color: #ffffff; */
+  border-top: none !important;
+  border-bottom: 2px solid rgb(229, 229, 229) !important;
+}
+
+.contact-table-top .header-row th {
+  padding-top: 2px;
+  padding-bottom: 5px;
+  padding-right: 10px;
+  height: 35px;
+}
+
+.contact-table-top th {
+  border-bottom: none !important;
+}
+
+

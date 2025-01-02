@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+{% block title %}Task Portal{% endblock %}
+{% block content %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_sections.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_navgrid.css') }}" />
+<link rel="stylesheet" href="{{ url_for('static', filename='css/main_input_section.css') }}" />
+{% endblock %}
+
+{% include 'modals/task_changes_unsaved_modal.html' %}
+{% include 'modals/discard_create_task_modal.html' %}
+
+
+
+<div class="container-fluid clients-main p-0">
+  <div class="row no-gutters h-100">
+
+
+    <div class="p-0 section-left">
+      <div class="section-1">
+       
+        <nav class="navbar navbar-expand-lg input-fields-nav">
+          <div class="container-fluid">
+            <div class="d-flex ms-auto">
+              <button id="saveTaskBtn" type="button" class="btn btn-secondary btn-subnav btn-save-reporting ms-2" disabled>
+                <i class="fas fa-save"></i>
+              </button>
+            </div>
+          </div>
+        </nav>
+        
+
+        <div class="reporting-container">
+            <input type="hidden" id="SuggestionBugId" />
+            <div class="form-group row company-hide">
+                <label for="TypeInput" class="col-sm-2 col-form-label text-right">Type<span class="mandatory">*</span></label>
+                <div class="col-sm-6">
+                    <select id="TypeInput" class="form-select">
+                        <option value="" selected="selected" hidden="hidden"></option>
+                        <option value="Oppgave">Oppgave</option>
+                        <option value="Forbedring">Forbedring</option>
+                        <option value="Feil">Feil</option>
+                        <option value="Annet">Annet</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row company-hide">
+                <label for="ReportedByInput" class="col-sm-2 col-form-label text-right">Rapportert av<span class="mandatory">*</span></label>
+                <div class="col-sm-6">
+                    <select id="ReportedByInput" class="form-select">
+                        <option value="" selected="selected" hidden="hidden"></option>
+                        <option value="Felix">Felix</option>
+                        <option value="Ana Maria">Ana Maria</option>
+                        <option value="Charlie">Charlie</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="DescriptionInput" class="col-sm-2 col-form-label text-right">Beskrivelse<span class="mandatory">*</span></label>
+                <div class="col-sm-8">
+                    <textarea class="form-control" id="DescriptionInput" rows="4"></textarea>
+                </div>
+            </div>
+            <div class="form-group row company-hide">
+                <label for="PriorityInput" class="col-sm-2 col-form-label text-right">Prioritet</label>
+                <div class="col-sm-6">
+                    <select id="PriorityInput" class="form-select">
+                        <option value="" selected="selected" hidden="hidden"></option>
+                        <option value="Lav">Lav</option>
+                        <option value="Middels">Middels</option>
+                        <option value="Høy">Høy</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row company-hide">
+              <label for="StatusInput" class="col-sm-2 col-form-label text-right">Status</label>
+              <div class="col-sm-6">
+                  <select id="StatusInput" class="form-select">
+                      <option value="" selected="selected"></option>
+                      <option value="Ikke påbegynt">Ikke påbegynt</option> 
+                      <option value="Pågår">Pågår</option> 
+                      <option value="Blokkert">Blokkert</option> 
+                      <option value="Under gjennomgang">Under gjennomgang</option> 
+                      <option value="Avsluttet">Avsluttet</option> 
+                      <option value="Avvist">Avvist</option>
+                  </select>
+              </div>
+            </div> 
+
+            <div class="form-group row">
+              <label for="profilePictureContainer" class="col-sm-2 col-form-label text-right">Bilde</label>
+              <div class="col-sm-6">
+                  <div id="profilePictureContainer" class="image-container">
+                      <div id="imageContentWrapper">
+                          <i id="profileImageIcon" class="fas fa-image image-placeholder-icon"></i>
+                          <img class="jobImage" src="" alt="Jobb Bilde" style="display: none;">
+                      </div>
+                      <div class="image-icon-group">
+                          <i id="addImageIcon" class="fas fa-plus add-profile-icon" title="Legg til bilde" data-bs-toggle="tooltip"></i>
+                          <i id="pasteImageIcon" class="fas fa-clipboard paste-profile-icon" title="Lim inn bilde" data-bs-toggle="tooltip"></i>
+                          <i id="profileDeleteIcon" class="fas fa-trash profile-delete-icon" title="Slett bilde" data-bs-toggle="tooltip"></i>
+                      </div>
+                      <div class="loaderWrapperPicture">
+                          <div class="loaderMainPicture"></div>
+                      </div>
+                  </div>
+                  <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+              </div>
+          </div>
+
+            
+          </div>
+          
+
+        
+      </div>
+    </div>
+
+
+
+
+    <div class="p-0 section-right">
+      <table class="table default-table-big contact-table-top">
+        <thead>
+          <tr class="header-row">
+            <th class="indicator-column"></th>
+            <th class="date-column sort-column">Dato</th>
+            <th class="name-column sort-column">Opprettet av</th>
+            <th class="type-column sort-column">Type</th>
+            <th class="description-column sort-column">Beskrivelse</th>
+            <th class="priority-column sort-column">Prioritet</th>            
+            <th class="delete-column"></th>
+          </tr>
+          <tr class="search-row">
+            <th></th>
+            <th><input type="text" class="searchInput" id="searchDate" placeholder=""></th>
+            <th><input type="text" class="searchInput" id="searchCreatedBy" placeholder=""></th>
+            <th><input type="text" class="searchInput" id="searchType" placeholder=""></th>
+            <th><input type="text" class="searchInput" id="searchDescription" placeholder=""></th>
+            <th><input type="text" class="searchInput" id="searchPriority" placeholder=""></th>
+            <th></th>
+          </tr>
+        </thead>
+      </table>
+      <div class="common-scrollsection">
+        <table class="table default-table-big general-table-bottom" id="contactTable">
+          <tbody id="suggestions-container">
+            {% for suggestion in suggestions %}
+            <tr class="clickable-row 
+              {% if suggestion.status == 'Completed' %}green-background
+              {% elif suggestion.status == 'Ready to test' %}blue-background
+              {% elif suggestion.status == 'Still problem' %}red-background
+              {% endif %}"
+              data-id="{{ suggestion.id }}"
+              data-itemtype="reporting"
+              data-image-url="{{ suggestion.image_url }}"
+              data-created-date="{{ suggestion.created_date }}"
+              data-created-by="{{ suggestion.created_by }}"
+              data-type="{{ suggestion.type }}"
+              data-description="{{ suggestion.description }}"
+              data-completed="{{ suggestion.completed }}"
+              data-priority="{{ suggestion.priority }}"
+              data-status="{{ suggestion.status }}">
+              <td class="indicator-col indicator-column-client"></td>
+              <td>{{ suggestion.created_date }}</td>
+              <td>{{ suggestion.created_by }}</td>
+              <td>{{ suggestion.type }}</td>
+              <td class="limited-text-container">
+                <div class="limited-text">{{ suggestion.description }}</div>
+              </td>
+              <td class="priority-column">{{ suggestion.priority }}</td>
+              <td class="delete-col">
+                <button class="btn-delete">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script type="text/javascript" src="{{ url_for('static', filename='js/delete_row.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main_navgrid.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/main.js') }}"></script>
+{% endblock %}
