@@ -186,6 +186,7 @@ document.getElementById('newReportingBtn').addEventListener('click', function ()
 /////////////////////////  Save task button click  /////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
 
+
 document.getElementById('saveTaskBtn').addEventListener('click', function () {
   // Collect form inputs
   const id = document.getElementById('SuggestionBugId').value;
@@ -214,8 +215,8 @@ document.getElementById('saveTaskBtn').addEventListener('click', function () {
     formData.append('image', '');
   }
 
-  // Only include the ID if it's not a temporary ID
-  if (id && !id.startsWith('temp-')) {
+  // Only include the ID if it exists
+  if (id) {
     formData.append('id', id);
   }
 
@@ -236,38 +237,64 @@ document.getElementById('saveTaskBtn').addEventListener('click', function () {
     .then((response) => {
       if (response.message === 'Success') {
         document.getElementById('saveTaskBtn').disabled = true;
+
         const suggestionId = response.id;
         const createdDate = response.created_date;
         const imageUrl = response.image_url;
 
-        let tempRow = document.querySelector(`#contactTable tr[data-id="${tempId}"]`);
-        debugger;
-        if (tempRow) {
-          // Update the temporary row with the new ID and data
-          tempRow.setAttribute('data-id', suggestionId);
-          tempRow.dataset.type = type;
-          tempRow.dataset.createdBy = createdBy;
-          tempRow.dataset.description = description;
-          tempRow.dataset.imageUrl = imageUrl;
-          tempRow.dataset.status = status;
+        // Find the row with the given ID
+        let row = document.querySelector(`#contactTable tr[data-id="${id}"]`);
+        if (!row) {
+          // If the row doesn't exist, look for the temporary row
+          row = document.querySelector(`#contactTable tr[data-id="${tempId}"]`);
+        }
 
-          tempRow.children[1].textContent = createdDate;
-          tempRow.children[2].textContent = createdBy;
-          tempRow.children[3].textContent = type;
-          tempRow.querySelector('.limited-text').textContent = description;
-          tempRow.children[5].textContent = priority;
+        if (row) {
+          // Update the row with the new data
+          row.setAttribute('data-id', suggestionId);
+          row.dataset.type = type;
+          row.dataset.createdBy = createdBy;
+          row.dataset.description = description;
+          row.dataset.imageUrl = imageUrl;
+          row.dataset.status = status;
+
+          row.children[1].textContent = createdDate;
+          row.children[2].textContent = createdBy;
+          row.children[3].textContent = type;
+          row.querySelector('.limited-text').textContent = description;
+          row.children[5].textContent = priority;
 
           // Update background class based on status
-          tempRow.classList.remove('green-background', 'blue-background', 'red-background');
+          row.classList.remove('green-background', 'blue-background', 'red-background');
           if (status === 'Completed') {
-            tempRow.classList.add('green-background');
+            row.classList.add('green-background');
           } else if (status === 'Ready to test') {
-            tempRow.classList.add('blue-background');
+            row.classList.add('blue-background');
           } else if (status === 'Still problem') {
-            tempRow.classList.add('red-background');
+            row.classList.add('red-background');
           }
         } else {
-          console.warn('No temporary row found. Something might be wrong with the ID handling.');
+          console.warn('No matching row found. Adding a new row.');
+          // Add a new row if no matching row is found
+          const newRow = document.createElement('tr');
+          newRow.classList.add('clickable-row');
+          newRow.setAttribute('data-id', suggestionId);
+          newRow.innerHTML = `
+            <td class="indicator-col indicator-column-client"></td>
+            <td>${createdDate}</td>
+            <td>${createdBy}</td>
+            <td>${type}</td>
+            <td class="limited-text-container">
+              <div class="limited-text">${description}</div>
+            </td>
+            <td>${priority}</td>
+            <td class="delete-col">
+              <button class="btn-delete">
+                <i class="fas fa-trash"></i>
+              </button>
+            </td>
+          `;
+          document.querySelector('#contactTable tbody').prepend(newRow);
         }
 
         // Update the hidden input field with the new suggestion ID
@@ -281,6 +308,104 @@ document.getElementById('saveTaskBtn').addEventListener('click', function () {
       alert('An error occurred while reporting. Please try again.');
     });
 });
+
+
+
+// document.getElementById('saveTaskBtn').addEventListener('click', function () {
+//   // Collect form inputs
+//   const id = document.getElementById('SuggestionBugId').value;
+//   const type = document.getElementById('TypeInput').value || 'Unknown'; // Default to 'Unknown' if empty
+//   const createdBy = document.getElementById('ReportedByInput').value || 'Anonymous'; // Default to 'Anonymous'
+//   const description = document.getElementById('DescriptionInput').value || 'No description provided'; // Default description
+//   const priority = document.getElementById('PriorityInput').value || 'Low'; // Default to 'Low'
+//   const status = document.getElementById('StatusInput').value || 'Pending'; // Default to 'Pending'
+
+//   // File upload and flags
+//   const newUploadFile = document.getElementById('imageUpload').files[0]; // Get the selected file
+//   const pictureRemoved = document.getElementById('PictureRemovedInput')?.checked || false; // Default to false
+
+//   // Prepare form data
+//   const formData = new FormData();
+//   formData.append('type', type);
+//   formData.append('created_by', createdBy);
+//   formData.append('description', description);
+//   formData.append('priority', priority);
+//   formData.append('status', status);
+//   formData.append('picture_removed', pictureRemoved.toString());
+
+//   if (newUploadFile) {
+//     formData.append('image', newUploadFile);
+//   } else {
+//     formData.append('image', '');
+//   }
+
+//   // Only include the ID if it's not a temporary ID
+//   if (id && !id.startsWith('temp-')) {
+//     formData.append('id', id);
+//   }
+
+//   // Get URL from meta tag
+//   const url = document.querySelector('meta[name="save-suggestion-url"]').getAttribute('content');
+
+//   // Perform the fetch POST request
+//   fetch(url, {
+//     method: 'POST',
+//     body: formData,
+//   })
+//     .then((response) => {
+//       if (!response.ok) {
+//         throw new Error(`HTTP error! status: ${response.status}`);
+//       }
+//       return response.json();
+//     })
+//     .then((response) => {
+//       if (response.message === 'Success') {
+//         document.getElementById('saveTaskBtn').disabled = true;
+//         const suggestionId = response.id;
+//         const createdDate = response.created_date;
+//         const imageUrl = response.image_url;
+
+//         let tempRow = document.querySelector(`#contactTable tr[data-id="${tempId}"]`);
+//         debugger;
+//         if (tempRow) {
+//           // Update the temporary row with the new ID and data
+//           tempRow.setAttribute('data-id', suggestionId);
+//           tempRow.dataset.type = type;
+//           tempRow.dataset.createdBy = createdBy;
+//           tempRow.dataset.description = description;
+//           tempRow.dataset.imageUrl = imageUrl;
+//           tempRow.dataset.status = status;
+
+//           tempRow.children[1].textContent = createdDate;
+//           tempRow.children[2].textContent = createdBy;
+//           tempRow.children[3].textContent = type;
+//           tempRow.querySelector('.limited-text').textContent = description;
+//           tempRow.children[5].textContent = priority;
+
+//           // Update background class based on status
+//           tempRow.classList.remove('green-background', 'blue-background', 'red-background');
+//           if (status === 'Completed') {
+//             tempRow.classList.add('green-background');
+//           } else if (status === 'Ready to test') {
+//             tempRow.classList.add('blue-background');
+//           } else if (status === 'Still problem') {
+//             tempRow.classList.add('red-background');
+//           }
+//         } else {
+//           console.warn('No temporary row found. Something might be wrong with the ID handling.');
+//         }
+
+//         // Update the hidden input field with the new suggestion ID
+//         document.getElementById('SuggestionBugId').value = suggestionId;
+//       } else {
+//         alert('An error occurred while reporting. Please try again.');
+//       }
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//       alert('An error occurred while reporting. Please try again.');
+//     });
+// });
 
 
 

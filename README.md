@@ -1,8 +1,8 @@
 
-# Oppgaveportal
+# Grunnleggende applikasjon for oppgaveregistrering (Oppgaveportal demo)
 
 ## Oversikt
-Oppgaveportalen er et enkelt Flask-basert verktøy for registrering og administrering av oppgaver. Applikasjonen gir mulighet til å legge inn oppgaver med tilhørende beskrivelse, prioritet, status, og bilde (lagret i AWS S3).
+Et enkelt Flask-basert verktøy for registrering og administrering av oppgaver. Applikasjonen gir mulighet til å legge inn oppgaver med tilhørende beskrivelse, prioritet, status, og bilde (lagret i AWS S3).
 
 ---
 
@@ -48,7 +48,7 @@ class Tasks(db.Model):
 
 ### 1. Klon repositoriet
 ```bash
-git clone https://github.com/dittbrukernavn/oppgaveportal.git
+git clone https://github.com/dittbrukernavn/grunnleggende-oppgaveregistrering-med-flask.git
 cd oppgaveportal
 ```
 
@@ -105,7 +105,7 @@ flask run
 ---
 
 ## Eksempelbilde
-![Oppgaveportal eksempel](https://din-s3-bucket.s3.amazonaws.com/eksempelbilde.png)
+![Oppgaveportal eksempel](https://felixsandstrom-github.s3.eu-north-1.amazonaws.com/oppgaveportal.png)
 
 ---
 
